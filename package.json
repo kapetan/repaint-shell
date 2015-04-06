@@ -1,0 +1,42 @@
+{
+  "name": "repaint-shell",
+  "version": "1.0.0",
+  "description": "Interface for repaint",
+  "main": "app.js",
+  "scripts": {
+    "start": "atom-shell app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kapetan/repaint-shell"
+  },
+  "keywords": [
+    "layout",
+    "rendering",
+    "html",
+    "engine",
+    "repaint",
+    "chrome",
+    "interface"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kapetan/repaint-shell/issues"
+  },
+  "homepage": "https://github.com/kapetan/repaint-shell",
+  "devDependencies": {
+    "atom-shell": "^0.22.3"
+  },
+  "dependencies": {
+    "debounce": "^1.0.0",
+    "domelementtype": "^1.3.0",
+    "github-markdown-css": "^2.0.7",
+    "handlebars": "^3.0.1",
+    "hat": "0.0.3",
+    "json-markup": "^0.1.6",
+    "marked": "^0.3.3",
+    "quotemeta": "0.0.0",
+    "repaint": "0.0.9",
+    "xhr": "^2.0.1"
+  }
+}

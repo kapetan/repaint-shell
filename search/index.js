@@ -73,10 +73,18 @@ Search.prototype.appendTo = function(element) {
 	return this;
 };
 
-Search.prototype.set = function(value) {
-	$(this.element).addClass('has-term');
+Search.prototype.set = function(value, transition) {
+	var self = this;
+	var $element = $(this.element);
+
+	if(transition === false) $element.removeClass('transition');
+	$element.addClass('has-term');
 	$('input', this.element)[0].value = value;
-	this.emit('search', value);
+
+	setImmediate(function() {
+		if(transition === false) $element.addClass('transition');
+		self.emit('search', value);
+	});
 };
 
 module.exports = Search;

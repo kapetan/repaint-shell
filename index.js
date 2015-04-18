@@ -53,7 +53,7 @@ tabs.on('active', function(tab) {
 	$(util.format('.search[data-id=%s], .web[data-id=%s]', id, id)).removeClass('hidden');
 
 	tab.state.web.fillParent();
-	if(url) tab.state.search.set(url);
+	if(url) tab.state.search.set(url, false);
 });
 
 tabs.on('create', function(tab) {

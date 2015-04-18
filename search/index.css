@@ -1,0 +1,92 @@
+.search {
+	-webkit-app-region: no-drag;
+	background: #fff;
+	border-radius: 0.25em;
+	padding: 0.25em 1.5em;
+	position: relative;
+	display: inline-block;
+	width: 10em;
+	height: 1.2em;
+	overflow: hidden;
+	box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.3);
+	transition: box-shadow 0.2s ease;
+	-webkit-transition: box-shadow 0.2s ease;
+	-webkit-user-select: none;
+	user-select: none;
+}
+
+.search .icon {
+	width: 1em;
+	height: 1em;
+	z-index: 2;
+}
+
+.search input {
+	cursor: default;
+	font-size: 1em;
+	border: none;
+	width: 100%;
+	background: transparent;
+	outline: none;
+	box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	padding: 0 0 0 1.75em;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	transition: width 0.2s ease, padding 0.2s ease;
+	-webkit-transition: width 0.2s ease, padding 0.2s ease;
+	width: 5em;
+	z-index: 1;
+}
+
+.search .search-icon {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	-webkit-transform: translate(-50%, -50%);
+	margin-left: -1.5em;
+	transition: margin-left 0.2s ease, left 0.2s ease;
+	-webkit-transition: margin-left 0.2s ease, left 0.2s ease;
+}
+
+.search .clear-search {
+	position: absolute;
+	top: 50%;
+	right: 0.5em;
+	transform: translate(0, -50%) scale(0, 0);
+	-webkit-transform: translate(0, -50%) scale(0, 0);
+	color: inherit;
+	text-decoration: none;
+	transition: transform 0.2s ease;
+	-webkit-transition: -webkit-transform 0.2s ease;
+}
+
+/* FOCUS STYLES */
+
+.search.focused {
+	box-shadow: 0px 1px 1px 0px rgba(0,0,0,0.3), 0px 0px 0px 3px #69f;
+}
+
+.search.focused input,
+.search.has-term input {
+	cursor: auto;
+	width: 100%;
+	padding: 0 1.75em;
+}
+
+.search.has-term .search-icon,
+.search.focused .search-icon {
+	margin-left: 0;
+	left: 1em;
+}
+
+.search.focused .clear-search,
+.search.has-term .clear-search {
+	transform: translate(0, -50%) scale(1, 1);
+	-webkit-transform: translate(0, -50%) scale(1, 1);
+}

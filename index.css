@@ -1,0 +1,47 @@
+html, body {
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	overflow: hidden;
+	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+	color: #333;
+	font-size: 14px;
+}
+
+#chrome {
+	border-bottom: 1px solid #dbdbdb;
+}
+
+#chrome .titlebar {
+	text-align: center;
+	font-size: 0;
+	padding-right: 65px;
+}
+
+#chrome .titlebar-stoplight {
+	margin-top: 8px;
+}
+
+#chrome .search {
+	width: 400px;
+	font-size: 14px;
+	margin: 8px 0;
+}
+
+#chrome .tabs li,
+#chrome .tabs .add-tab {
+	border-top: 1px solid #dbdbdb;
+}
+
+#chrome .tabs li {
+	font-size: 11px;
+}
+
+#chrome .tabs li.active {
+	border-top-color: transparent;
+}
+
+#chrome .search.hidden,
+#content .web.hidden {
+	display: none;
+}

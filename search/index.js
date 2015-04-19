@@ -87,4 +87,10 @@ Search.prototype.set = function(value, transition) {
 	});
 };
 
+Search.prototype.focus = function() {
+	var input = $('input', this.element)[0];
+	input.focus();
+	input.select();
+};
+
 module.exports = Search;

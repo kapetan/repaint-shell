@@ -2,13 +2,13 @@ var util = require('util');
 var remote = require('remote');
 var ElementType = require('domelementtype');
 var titlebar = require('titlebar')();
+var key = require('keymaster');
+var minimist = require('minimist');
 var $ = require('dombo');
 
 var search = require('./search');
 var tabs = require('./tabs')();
 var web = require('./web');
-
-var urls = JSON.parse(window.location.hash.replace(/^#/, ''));
 
 var text = function(nodes) {
 	nodes = Array.isArray(nodes) ? nodes : [nodes];
@@ -69,6 +69,10 @@ tabs.on('create', function(tab) {
 	s.element.dataset.id = id;
 	w.element.dataset.id = id;
 
+	$(s.element).on('dblclick', function(e) {
+		e.stopPropagation();
+	});
+
 	s.on('search', function(url) {
 		if(url) w.load(url);
 		else w.clear();
@@ -88,6 +92,51 @@ tabs.on('create', function(tab) {
 	w.appendTo('#content');
 });
 
+key('command+r, ctrl+r', function() {
+	if(argv.reload) return;
+	var tab = tabs.active();
+	if(tab) tab.state.web.reload();
+	return false;
+});
+
+key('command+t, ctrl+t', function() {
+	tabs.create(null, null, true);
+	return false;
+});
+
+key('command+w, ctrl+w', function() {
+	if(tabs.length() === 1) remote.getCurrentWindow().close();
+	else {
+		var tab = tabs.active();
+		tabs.destroy(tab);
+	}
+
+	return false;
+});
+
+key('command+l, ctrl+l', function() {
+	var tab = tabs.active();
+	if(tab) tab.state.search.focus();
+	return false;
+});
+
+key('ctrl+shift+tab', function() {
+	tabs.previous();
+	return false;
+});
+
+key('ctrl+tab', function() {
+	tabs.next();
+	return false;
+});
+
+var argv = JSON.parse(window.location.hash.replace(/^#/, ''));
+argv = minimist(argv, {
+	boolean: ['reload'],
+	default: { reload: false }
+});
+
+var urls = argv._;
 if(!urls.length) urls = [null];
 
 urls.forEach(function(url, i) {

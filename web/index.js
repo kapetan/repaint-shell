@@ -82,6 +82,7 @@ Web.prototype.load = function(url, scroll, callback) {
 		scroll = null;
 	}
 
+	if(!/^[^:]+:\/\//.test(url)) url = 'http://' + url;
 	scroll = (typeof scroll === 'boolean') ? scroll : true;
 	callback = callback || noop;
 
@@ -138,6 +139,10 @@ Web.prototype.load = function(url, scroll, callback) {
 			canvas.height = Math.ceil(layout.visibleHeight());
 		});
 	});
+};
+
+Web.prototype.reload = function(callback) {
+	if(this._url) this.load(this._url, false, callback);
 };
 
 Web.prototype.resize = function(width, height) {

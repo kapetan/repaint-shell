@@ -16,6 +16,12 @@ var prettifyUrl = function(url) {
 	return url ? url.replace(/^https?:\/\//, '') : null;
 };
 
+var position = function(element) {
+	var parent = element.parentNode;
+	if(!parent) return -1;
+	return Array.prototype.indexOf.call(parent.children, element);
+};
+
 var appendSvg = once(function() {
 	document.head.appendChild(domify(svg));
 });
@@ -43,7 +49,27 @@ var Tabs = function(options) {
 
 util.inherits(Tabs, events.EventEmitter);
 
+Tabs.prototype.appendTo = function(element) {
+	if(typeof element === 'string') element = $(element)[0];
+	if(this._options.style !== false) defaultcss('tabs', style);
+	appendSvg();
+	element.appendChild(this.element);
+	return this;
+};
+
+Tabs.prototype.length = function() {
+	return $('li', this.element).length;
+};
+
 Tabs.prototype.active = function(element) {
+	if(element == null) return $('.active', this.element)[0];
+	if(typeof element === 'number') {
+		var tabs = $('li', this.element);
+		var length = tabs.length;
+		var i = (element + length) % length;
+		element = tabs[i];
+	}
+
 	$('.active', this.element).removeClass('active');
 	$(element).addClass('active');
 	this.emit('active', element);
@@ -72,12 +98,39 @@ Tabs.prototype.update = function(element, title, url) {
 	return element;
 };
 
-Tabs.prototype.appendTo = function(element) {
-	if(typeof element === 'string') element = $(element)[0];
-	if(this._options.style !== false) defaultcss('tabs', style);
-	appendSvg();
-	element.appendChild(this.element);
-	return this;
+Tabs.prototype.previous = function() {
+	if(this.length() <= 1) return;
+
+	var active = this.active();
+	if(!active) return;
+	var pos = position(active);
+	return this.active(pos - 1);
+};
+
+Tabs.prototype.next = function() {
+	if(this.length() <= 1) return;
+
+	var active = this.active();
+	if(!active) return;
+	var pos = position(active);
+	return this.active(pos + 1);
+};
+
+Tabs.prototype.destroy = function(element) {
+	var parent = element.parentNode;
+	var length = this.length();
+
+	if(!parent) return;
+	if($(element).hasClass('active') && length > 1) {
+		var pos = position(element);
+
+		var next = pos - 1;
+		if(pos === 0) next = 1;
+		this.active(next);
+	}
+
+	parent.removeChild(element);
+	return element;
 };
 
 module.exports = Tabs;

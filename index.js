@@ -1,7 +1,6 @@
 var util = require('util');
 var remote = require('remote');
 var ElementType = require('domelementtype');
-var titlebar = require('titlebar')();
 var key = require('keymaster');
 var minimist = require('minimist');
 var $ = require('dombo');
@@ -9,6 +8,37 @@ var $ = require('dombo');
 var search = require('./search');
 var tabs = require('./tabs')();
 var web = require('./web');
+
+var mouse;
+var draggable = true;
+
+try {
+	mouse = require('osx-mouse')();
+	draggable = false;
+} catch(err) {
+	console.log('Failed loading osx-mouse - ' + err.message);
+}
+
+var titlebar = require('titlebar')({ draggable: draggable });
+
+if(mouse) {
+	var offset = null;
+
+	$(titlebar.element).on('mousedown', function(e) {
+		offset = [e.clientX, e.clientY];
+	});
+
+	mouse.on('left-drag', function(x, y) {
+		if(!offset || x < 0 || y < 0) return;
+		x = Math.round(x - offset[0]);
+		y = Math.round(y - offset[1]);
+		remote.getCurrentWindow().setPosition(x, y);
+	});
+
+	mouse.on('left-up', function() {
+		offset = null;
+	});
+}
 
 var text = function(nodes) {
 	nodes = Array.isArray(nodes) ? nodes : [nodes];

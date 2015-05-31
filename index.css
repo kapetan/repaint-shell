@@ -16,6 +16,7 @@ html, body {
 	text-align: center;
 	font-size: 0;
 	padding-right: 65px;
+	cursor: default;
 }
 
 #chrome .titlebar-stoplight {
